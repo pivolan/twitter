@@ -1,0 +1,33 @@
+Tweet:
+  columns:
+    text: { type: string(255), notnull: true}
+  relations:
+    Tags:
+      type: many
+      class: Tag
+      local: tweet_id
+      foreign: tag_id
+      refClass: TweetTagAssoc
+
+Tag:
+  columns:
+    name: { type: string(255), notnull: true, unique: true }
+  relations:
+    Tweets:
+      type: many
+      class: Tweet
+      local: tag_id
+      foreign: tweet_id
+      refClass: TweetTagAssoc
+
+TweetTagAssoc:
+  columns:
+    tweet_id: { type: integer }
+    tag_id: { type: integer }
+  relations:
+    Tweet:
+      foreign: id
+      local: tweet_id
+    Tag:
+      foreign: id
+      local: tag_id
