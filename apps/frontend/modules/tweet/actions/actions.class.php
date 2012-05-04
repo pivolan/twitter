@@ -1,5 +1,6 @@
 <?php
-
+// Не разобрался с autoload.yml
+require_once __DIR__ . '/../../../../../lib/services/ParseTextService.php';
 /**
  * tweet actions.
  *
@@ -54,16 +55,6 @@ class tweetActions extends sfActions
     $this->processForm($request, $this->form);
 
     $this->setTemplate('edit');
-  }
-
-  public function executeDelete(sfWebRequest $request)
-  {
-    $request->checkCSRFProtection();
-
-    $this->forward404Unless($tweet = Doctrine_Core::getTable('Tweet')->find(array($request->getParameter('id'))), sprintf('Object tweet does not exist (%s).', $request->getParameter('id')));
-    $tweet->delete();
-
-    $this->redirect('tweet/index');
   }
 
   protected function processForm(sfWebRequest $request, sfForm $form)

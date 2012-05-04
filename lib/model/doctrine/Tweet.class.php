@@ -1,5 +1,8 @@
 <?php
-
+// не разобрался с autoload.yml
+require_once __DIR__.'/../../services/FindLinkAway.php';
+require_once __DIR__.'/../../services/XssCleanFilter.php';
+require_once __DIR__.'/../../services/ParseTextService.php';
 /**
  * Tweet
  * 
@@ -12,4 +15,21 @@
  */
 class Tweet extends BaseTweet
 {
+  /**
+   * Возвращает отфильтрованное сообщение.
+   * @return string
+   */
+  public function getFormattedText()
+  {
+    $text = $this->getText();
+    $tags = ParseTextService::getTagsFromText($text);
+    foreach($tags as $tag)
+    {
+      $text = str_replace('#'.$tag, "<a href='/tag/show/name/$tag'>#$tag</a>", $text);
+    }
+    $text = FindLinkAway::static_filter($text);
+    $text = XssCleanFilter::static_filter($text);
+    $text = nl2br($text);
+    return $text;
+  }
 }

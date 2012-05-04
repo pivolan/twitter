@@ -1,3 +1,4 @@
+<?php /** @var $tweet Tweet */?>
 <table>
   <tbody>
     <tr>
@@ -5,8 +6,12 @@
       <td><?php echo $tweet->getId() ?></td>
     </tr>
     <tr>
-      <th>Text:</th>
+      <th>Raw Text:</th>
       <td><?php echo $tweet->getText() ?></td>
+    </tr>
+    <tr>
+      <th>Formatted Text:</th>
+      <td><?php echo $tweet->getFormattedText() ?></td>
     </tr>
   </tbody>
 </table>

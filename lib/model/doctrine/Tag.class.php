@@ -12,4 +12,6 @@
  */
 class Tag extends BaseTag
 {
+  const NAME_FIELD = 'name';
+  const ID_FIELD = 'id';
 }

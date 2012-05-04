@@ -1,3 +1,4 @@
+<?php /** @var $tweet Tweet */ ?>
 <h1>Tweets List</h1>
 
 <table>
@@ -11,7 +12,7 @@
     <?php foreach ($tweets as $tweet): ?>
     <tr>
       <td><a href="<?php echo url_for('tweet/show?id='.$tweet->getId()) ?>"><?php echo $tweet->getId() ?></a></td>
-      <td><?php echo $tweet->getText() ?></td>
+      <td><?php echo $tweet->getFormattedText() ?></td>
     </tr>
     <?php endforeach; ?>
   </tbody>

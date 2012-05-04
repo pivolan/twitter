@@ -1,5 +1,6 @@
 <?php
-
+// Не разобрался с autoload.yml настройками.
+require_once __DIR__ . '/../../services/ParseTextService.php';
 /**
  * Tweet form.
  *
@@ -10,9 +11,59 @@
  */
 class TweetForm extends BaseTweetForm
 {
-	public function configure()
-	{
-		$this->widgetSchema['text'] = new sfWidgetFormTextarea();
-		$this->validatorSchema['text'] = new sfValidatorString(array('max_length' => 140));
-	}
+  public function configure()
+  {
+    // Изменяем поле ввода на TextArea
+    $this->widgetSchema['text'] = new sfWidgetFormTextarea();
+    $this->validatorSchema['text'] = new sfValidatorString(array('max_length' => 140));
+    unset($this['tags_list']);
+  }
+
+  /**
+   * Метод парсинга Тэгов и привязки их к сообщению
+   * @param null $con
+   * @throws
+   */
+  public function saveTagsList($con = null)
+  {
+    if (!$this->isValid()) {
+      throw $this->getErrorSchema();
+    }
+    // Уберем все привязки к тегам.
+    $existing = $this->object->Tags->getPrimaryKeys();
+    $this->object->unlink('Tags', $existing);
+
+    // Получим список тегов
+    $tagsName = ParseTextService::getTagsFromText($this->getValue('text'));
+    if (is_array($tagsName) && count($tagsName)) {
+      // Узнеам какие уже есть в базе.
+      $query = Doctrine_Query::create()
+        ->from('Tag t')
+        ->whereIn('t.' . Tag::NAME_FIELD, array_keys($tagsName));
+
+      $tags = $query->execute();
+      // Общий массив Id тегов для привязки к сообщению
+      $tagsToTweet = array();
+
+      /** @var $tag Tag */
+      foreach ($tags as $tag)
+      {
+        $name = $tag->getName();
+        if (isset($tagsName[$name])) {
+          unset($tagsName[$name]);
+        }
+        $tagsToTweet[] = $tag->getId();
+      }
+      // Создадим Теги
+      foreach ($tagsName as $tagName)
+      {
+        $tag = new Tag();
+        $tag->setName($tagName);
+        $tag->save();
+        $tagsToTweet[] = $tag->getId();
+      }
+      // Привяжем все теги
+      $this->object->link('Tags', $tagsToTweet);
+    }
+  }
 }

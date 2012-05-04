@@ -19,61 +19,15 @@ class tagActions extends sfActions
 
   public function executeShow(sfWebRequest $request)
   {
-    $this->tag = Doctrine_Core::getTable('Tag')->find(array($request->getParameter('id')));
-    $this->forward404Unless($this->tag);
-  }
-
-  public function executeNew(sfWebRequest $request)
-  {
-    $this->form = new TagForm();
-  }
-
-  public function executeCreate(sfWebRequest $request)
-  {
-    $this->forward404Unless($request->isMethod(sfRequest::POST));
-
-    $this->form = new TagForm();
-
-    $this->processForm($request, $this->form);
-
-    $this->setTemplate('new');
-  }
-
-  public function executeEdit(sfWebRequest $request)
-  {
-    $this->forward404Unless($tag = Doctrine_Core::getTable('Tag')->find(array($request->getParameter('id'))), sprintf('Object tag does not exist (%s).', $request->getParameter('id')));
-    $this->form = new TagForm($tag);
-  }
-
-  public function executeUpdate(sfWebRequest $request)
-  {
-    $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
-    $this->forward404Unless($tag = Doctrine_Core::getTable('Tag')->find(array($request->getParameter('id'))), sprintf('Object tag does not exist (%s).', $request->getParameter('id')));
-    $this->form = new TagForm($tag);
-
-    $this->processForm($request, $this->form);
-
-    $this->setTemplate('edit');
-  }
-
-  public function executeDelete(sfWebRequest $request)
-  {
-    $request->checkCSRFProtection();
-
-    $this->forward404Unless($tag = Doctrine_Core::getTable('Tag')->find(array($request->getParameter('id'))), sprintf('Object tag does not exist (%s).', $request->getParameter('id')));
-    $tag->delete();
-
-    $this->redirect('tag/index');
-  }
-
-  protected function processForm(sfWebRequest $request, sfForm $form)
-  {
-    $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
-    if ($form->isValid())
-    {
-      $tag = $form->save();
-
-      $this->redirect('tag/edit?id='.$tag->getId());
+    $id = $request->getParameter('id');
+    $name = $request->getParameter('name');
+    if ($id) {
+      $this->tag = Doctrine_Core::getTable('Tag')->find(array($request->getParameter('id')));
     }
+    elseif ($name)
+    {
+      $this->tag = Doctrine_Core::getTable('Tag')->findOneBy(Tag::NAME_FIELD, $name);
+    }
+    $this->forward404Unless($this->tag);
   }
 }
