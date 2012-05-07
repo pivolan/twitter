@@ -1,4 +1,5 @@
 <?php /** @var $tweet Tweet */?>
+<?php use_helper('Tweet') ?>
 <table>
   <tbody>
     <tr>
@@ -11,7 +12,7 @@
     </tr>
     <tr>
       <th>Formatted Text:</th>
-      <td><?php echo $tweet->getFormattedText() ?></td>
+      <td><?php echo format_tweet($tweet->getText()) ?></td>
     </tr>
   </tbody>
 </table>

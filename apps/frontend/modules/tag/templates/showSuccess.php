@@ -1,4 +1,7 @@
 <?php /** @var $tag Tag */?>
+<?php /** @var $tweet Tweet */?>
+<?php use_helper('Tweet') ?>
+
 <table>
   <tbody>
     <tr>
@@ -31,7 +34,7 @@
     <?php foreach ($tag->Tweets as $tweet): ?>
     <tr>
       <td><a href="<?php echo url_for('tweet/show?id='.$tweet->getId()) ?>"><?php echo $tweet->getId() ?></a></td>
-      <td><?php echo $tweet->getFormattedText() ?></td>
+      <td><?php echo format_tweet($tweet->getText()) ?></td>
     </tr>
     <?php endforeach; ?>
   </tbody>
