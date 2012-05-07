@@ -1,6 +1,0 @@
-# Должно работать, но не работает.
-autoload:
-  config_name:
-    name: services
-    path: lib/services
-    recursive: true

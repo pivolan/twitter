@@ -1,6 +1,4 @@
 <?php
-// Не разобрался с autoload.yml
-require_once __DIR__ . '/../../../../../lib/services/ParseTextService.php';
 /**
  * tweet actions.
  *

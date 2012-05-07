@@ -1,8 +1,4 @@
 <?php
-// не разобрался с autoload.yml
-require_once __DIR__.'/../../services/FindLinkAway.php';
-require_once __DIR__.'/../../services/XssCleanFilter.php';
-require_once __DIR__.'/../../services/ParseTextService.php';
 /**
  * Tweet
  * 

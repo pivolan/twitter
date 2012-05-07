@@ -1,6 +1,4 @@
 <?php
-// Не разобрался с autoload.yml настройками.
-require_once __DIR__ . '/../../services/ParseTextService.php';
 /**
  * Tweet form.
  *
@@ -57,6 +55,7 @@ class TweetForm extends BaseTweetForm
       // Создадим Теги
       foreach ($tagsName as $tagName)
       {
+	      //todo заменить на multiInsert
         $tag = new Tag();
         $tag->setName($tagName);
         $tag->save();
