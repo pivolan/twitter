@@ -12,6 +12,9 @@ Tweet:
 Tag:
   columns:
     name: { type: string(255), notnull: true, unique: true }
+  indexes:
+    name_index:
+      fields: [name]
   relations:
     Tweets:
       type: many
