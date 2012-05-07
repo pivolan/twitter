@@ -3,6 +3,7 @@
 /**
  * Tag form.
  *
+ * @property Tag $object
  * @package    twitter
  * @subpackage form
  * @author     Your name here

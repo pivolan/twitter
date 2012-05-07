@@ -2,6 +2,7 @@
 /**
  * Tweet form.
  *
+ * @property Tweet $object
  * @package    twitter
  * @subpackage form
  * @author     Your name here
@@ -56,7 +57,7 @@ class TweetForm extends BaseTweetForm
       // Создадим недостающие Теги
       foreach ($tagsName as $tagName)
       {
-        //todo заменить на multiInsert
+        // doctrine не поддерживает multiple insert
         $tag = new Tag();
         $tag->setName($tagName);
         $tag->save();
