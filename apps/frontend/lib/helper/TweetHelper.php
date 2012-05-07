@@ -6,6 +6,11 @@
  * Time: 23:14
  * To change this template use File | Settings | File Templates.
  */
+
+/**
+ * Возвращает отфильтрованное сообщение.
+ * @return string
+ */
 function format_tweet($text)
 {
   $tags = ParseTextService::getTagsFromText($text);

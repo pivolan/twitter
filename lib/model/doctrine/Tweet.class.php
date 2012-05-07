@@ -12,21 +12,4 @@
  */
 class Tweet extends BaseTweet
 {
-  /**
-   * Возвращает отфильтрованное сообщение.
-   * @return string
-   */
-  public function getFormattedText()
-  {
-    $text = $this->getText();
-    $tags = ParseTextService::getTagsFromText($text);
-    foreach($tags as $tag)
-    {
-      $text = str_replace('#'.$tag, "<a href='/tag/show/name/$tag'>#$tag</a>", $text);
-    }
-    $text = FindLinkAway::static_filter($text);
-    $text = XssCleanFilter::static_filter($text);
-    $text = nl2br($text);
-    return $text;
-  }
 }
