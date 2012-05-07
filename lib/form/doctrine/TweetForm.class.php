@@ -14,6 +14,7 @@ class TweetForm extends BaseTweetForm
     // Изменяем поле ввода на TextArea
     $this->widgetSchema['text'] = new sfWidgetFormTextarea();
     $this->validatorSchema['text'] = new sfValidatorString(array('max_length' => 140));
+    // Удаление поля tags list
     unset($this['tags_list']);
   }
 
@@ -52,10 +53,10 @@ class TweetForm extends BaseTweetForm
         }
         $tagsToTweet[] = $tag->getId();
       }
-      // Создадим Теги
+      // Создадим недостающие Теги
       foreach ($tagsName as $tagName)
       {
-	      //todo заменить на multiInsert
+        //todo заменить на multiInsert
         $tag = new Tag();
         $tag->setName($tagName);
         $tag->save();
